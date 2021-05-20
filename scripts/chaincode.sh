@@ -7,7 +7,7 @@ LANG=golang
 LABEL=${CCNAME}v1
 cat <<EOF
 echo "getting chaincode for ${ORG} ${PEER}"
-go get -d ${CCURL}
+go get -d -x ${CCURL}
 echo "packaging chaincode for ${ORG} ${PEER}"
 peer lifecycle chaincode package ${CCNAME}.tar.gz --path ${CCURL} --lang ${LANG} --label ${LABEL}
 echo "installing chaincode on ${ORG} ${PEER}"
@@ -71,7 +71,7 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["create", "greeting", "Hello, World!"]}' \
+  --ctor '{"Args":["InitLedger"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -91,7 +91,7 @@ CHANNEL_ID=$2
 cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor '{"Args":["read", "greeting"]}' \
+--ctor '{"Args":["QueryAllCars"]}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
@@ -105,7 +105,30 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["update", "greeting", "Hello, Blockchain!"]}' \
+  --ctor '{"Args":["ChangeCarOwner", "CAR0", "Ataberk"]}' \
+  --waitForEvent \
+  --waitForEventTimeout 300s \
+  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
+  --tls true -o orderer.org1:7050 \
+  --peerAddresses peer0.org1:7051 \
+  --peerAddresses peer0.org2:7051 \
+  --peerAddresses peer0.org3:7051  \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
+EOF
+}
+
+
+create() {
+CCNAME=$1
+CHANNEL_ID=$2
+cat <<EOF
+echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
+peer chaincode invoke \
+  --channelID ${CHANNEL_ID} \
+  --name ${CCNAME} \
+  --ctor '{"Args":["CreateCar", "CAR10", "BMW", "M4", "black", "Ataberk"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
