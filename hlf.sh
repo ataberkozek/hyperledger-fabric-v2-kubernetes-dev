@@ -101,25 +101,39 @@ commit ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace ${ORG} \
     exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
   ;;
 
-ccInvoke)
-invoke ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+ccInit)
+init ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
 
-ccInvokeUpdate)
+ccChangeOwner)
 update ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
 ccCreateCar)
 create ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
-ccQuery)
+  
+
+ccQueryAll)
 for ORG in org1 org2 org3
   do
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      query ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryAll ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
+  ;;
+  
+ccQueryCar)
+for ORG in org1 org2 org3
+  do
+    for PEER in peer0
+    do
+      echo "Quering on ${PEER}.${ORG}"
+      queryCar ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+    done
+  done
+  ;;
 esac
 
