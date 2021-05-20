@@ -63,7 +63,7 @@ peer lifecycle chaincode commit \
 EOF
 }
 
-invoke() {
+init() {
 CCNAME=$1
 CHANNEL_ID=$2
 cat <<EOF
@@ -85,13 +85,24 @@ peer chaincode invoke \
 EOF
 }
 
-query() {
+queryAll() {
 CCNAME=$1
 CHANNEL_ID=$2
 cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
 --ctor '{"Args":["QueryAllCars"]}' \
+--tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
+EOF
+}
+
+queryCar() {
+CCNAME=$1
+CHANNEL_ID=$2
+cat <<EOF
+peer chaincode query --name ${CCNAME} \
+--channelID ${CHANNEL_ID} \
+--ctor '{"Args":["QueryCar", "CAR10"]}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
@@ -128,7 +139,7 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["CreateCar", "CAR10", "BMW", "M4", "black", "Ataberk"]}' \
+  --ctor '{"Args":["CreateCar", "CAR12", "Mercedes", "SLS-AMG", "blue", "Batuhan"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
