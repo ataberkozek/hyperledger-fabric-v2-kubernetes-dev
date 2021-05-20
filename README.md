@@ -37,10 +37,11 @@ Chaincode lifecycle
 ./hlf.sh ccInstall
 ./hlf.sh ccApprove
 ./hlf.sh ccCommit
-./hlf.sh ccInvoke         # Creates greeting="Hello, World!"
-./hlf.sh ccQuery          # Reads greeting value
-./hlf.sh ccInvokeUpdate   # Updates greeting="Hello, Blockchain!"
-./hlf.sh ccQuery          # Reads greeting value to check update succeeded
+./hlf.sh ccInit           # Populates ledger with assests.
+./hlf.sh ccQueryAll       # Reads ledger for every peer.
+./hlf.sh ccQueryCar       # Reads the given car id.
+./hlf.sh ccCreateCar      # Creates a car with given attributes.
+./hlf.sh ccChangeOwner    # Changes the owner of the given car id.
 ```
 
 ## Explorer
