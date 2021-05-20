@@ -1,4 +1,4 @@
-module github.com/hyperledger/fabric-samples/chaincode/fabcar/go
+module github.com/ataberkozek/hyperledger-fabric-v2-kubernetes-dev/fabre
 
 go 1.13
 
