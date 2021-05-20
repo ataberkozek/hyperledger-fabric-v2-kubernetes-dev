@@ -37,11 +37,16 @@ Chaincode lifecycle
 ./hlf.sh ccInstall
 ./hlf.sh ccApprove
 ./hlf.sh ccCommit
-./hlf.sh ccInit           # Populates ledger with assests.
-./hlf.sh ccQueryAll       # Reads ledger for every peer.
-./hlf.sh ccQueryCar       # Reads the given car id.
-./hlf.sh ccCreateCar      # Creates a car with given attributes.
-./hlf.sh ccChangeOwner    # Changes the owner of the given car id.
+./hlf.sh ccInit             # Populates ledger with assests.
+./hlf.sh ccQueryAllCars     # Reads ledger for every peer.
+./hlf.sh ccQueryCar         # Reads the given car id.
+./hlf.sh ccCreateCar        # Creates a car with given attributes.
+./hlf.sh ccChangeCarOwner   # Changes the owner of the given car id.
+./hlf.sh ccQueryAllRes      # Reads ledger for every peer.
+./hlf.sh ccQueryRe          # Reads the given RE id.
+./hlf.sh ccCreateRe         # Creates a RE with given attributes.
+./hlf.sh ccChangeReOwner    # Changes the owner of the given RE id.
+./hlf.sh ccChangeRePrice    # Changes the price of the given RE id.
 ```
 
 ## Explorer
