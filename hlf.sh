@@ -13,12 +13,12 @@ export CCNAME=fabcar
 createNamespaces() {
     for NS in org1 org2 org3 org4 org5
     do
-        kubectl create ns $NS
+        oc create ns $NS
     done
 }
 
 deleteNamespaces() {
-  kubectl delete ns org1 org2 org3 org4 org5
+  oc delete ns org1 org2 org3 org4 org5
   exit $?
 }
 
@@ -35,7 +35,7 @@ up)
     for ORG in org1 org2 org3 org4 org5
     do
       creareOrdererSecret ${ORG}
-      sh templates/orderer.sh ${ORG} | kubectl apply -f -
+      sh templates/orderer.sh ${ORG} | oc apply -f -
     done
 
     for ORG in org1 org2 org3
@@ -44,13 +44,13 @@ up)
         createAdminSecret ${ORG} ${PEER}
         createChannelArtifactsSecrets ${ORG}
         createOrgRootTLSCAsSecret ${ORG}
-        sh templates/ca.sh ${ORG} | kubectl apply -f -
+        sh templates/ca.sh ${ORG} | oc apply -f -
 
         for PEER in peer0
         do
           createPeerSecret ${ORG} ${PEER}
-          sh templates/peer.sh ${ORG} ${PEER} | kubectl apply -f -
-          sh templates/admin.sh ${ORG} ${PEER} | kubectl apply -f -
+          sh templates/peer.sh ${ORG} ${PEER} | oc apply -f -
+          sh templates/admin.sh ${ORG} ${PEER} | oc apply -f -
         done
     done
   ;;
@@ -63,8 +63,8 @@ for ORG in org1 org2 org3
 do
     for PEER in peer0
     do
-      ./scripts/join-channel.sh ${ORG} ${PEER} ${CHANNEL_ID} | sh -c "kubectl --namespace ${ORG} \
-        exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+      ./scripts/join-channel.sh ${ORG} ${PEER} ${CHANNEL_ID} | sh -c "oc --namespace ${ORG} \
+        exec -i $(oc -n ${ORG} get pod -l app=admin -o name) -- sh -"
     done
 done
   ;;
@@ -76,8 +76,8 @@ echo "Installing on ${ORG} peers"
     for PEER in peer0
     do
       echo "Installing ${CCNAME} on ${PEER}"
-      packageAndInstall ${CCURL} ${CCNAME} | sh -c "kubectl --namespace ${ORG} \
-        exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+      packageAndInstall ${CCURL} ${CCNAME} | sh -c "oc --namespace ${ORG} \
+        exec -i $(oc -n ${ORG} get pod -l app=admin -o name) -- sh -"
     done
 done
 ;;
@@ -89,40 +89,40 @@ echo "Installing on ${ORG} peers"
     for PEER in peer0
     do
       echo "Approving ${CCNAME} for ${ORG}"
-      approve ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace ${ORG} \
-        exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+      approve ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace ${ORG} \
+        exec -i $(oc -n ${ORG} get pod -l app=admin -o name) -- sh -"
     done
 done
 ;;
 ccCommit)
 ORG=org1
 PEER=peer0
-commit ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace ${ORG} \
-    exec -i $(kubectl -n ${ORG} get pod -l app=admin -o name) -- sh -"
+commit ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace ${ORG} \
+    exec -i $(oc -n ${ORG} get pod -l app=admin -o name) -- sh -"
   ;;
 
 ccInit)
-init ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+init ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
 
 ccChangeCarOwner)
-changeCarOwner ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+changeCarOwner ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
 ccChangeReOwner)
-changeReOwner ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+changeReOwner ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
 ccChangeRePrice)
-changeRePrice ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+changeRePrice ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
 ccCreateCar)
-createCar ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+createCar ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
 
 ccCreateRe)
-createRe ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+createRe ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org1 exec -i $(oc -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
 
 ccQueryAllCars)
@@ -131,7 +131,7 @@ for ORG in org1 org2 org3
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryAllCars ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryAllCars ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org3 exec -i $(oc -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
@@ -142,7 +142,7 @@ for ORG in org1 org2 org3
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryAllRes ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryAllRes ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org3 exec -i $(oc -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
@@ -153,7 +153,7 @@ for ORG in org1 org2 org3
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryCar ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryCar ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org3 exec -i $(oc -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
@@ -164,7 +164,7 @@ for ORG in org1 org2 org3
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryRe ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryRe ${CCNAME} ${CHANNEL_ID} | sh -c "oc --namespace org3 exec -i $(oc -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
