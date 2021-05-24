@@ -14,6 +14,8 @@ createNamespaces() {
     for NS in org1 org2 org3 org4 org5
     do
         oc create ns $NS
+        oc adm policy add-scc-to-user anyuid -z default -n $NS
+        oc adm policy add-scc-to-user privileged -z default -n $NS
     done
 }
 
