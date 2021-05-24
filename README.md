@@ -66,10 +66,8 @@ kubectl -n org1 apply -f explorer/explorer.yaml
 Access explorer UI
 
 ```bash
-kubectl -n org1 port-forward svc/explorer 8080:80
+kubectl -n org1 expose svc/explorer
 ```
-
-explorer should now be available at <http://localhost:8080>
 
 ## Rest API
 
@@ -82,7 +80,5 @@ kubectl -n org1 apply -f api/api-k8s.yaml
 port-forward API server once its in Running state
 
 ```bash
-kubectl -n org1 port-forward svc/hlf-api 3000
+kubectl -n org1 expose svc/hlf-api
 ```
-
-Access API Swagger UI at <http://localhost:3000/swagger>
