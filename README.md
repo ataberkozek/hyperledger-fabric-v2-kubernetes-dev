@@ -1,9 +1,9 @@
-# Hyperledger Fabric v2 with Raft on Kubernetes
+# Hyperledger Fabric v2 with Raft on Openshift
 
 ## Prerequisites
 
-- Kubernetes cluster with at least 4GB memory and 2 vCPUs (tested on IBM Cloud free tier IKS)
-- kubectl available on path and configured to use a cluster
+- Openshift cluster with at least 4GB memory and 2 vCPUs
+- kubectl/oc available on path and configured to use a cluster
 - Fabric binaries available on path
 
 ## Architechture
