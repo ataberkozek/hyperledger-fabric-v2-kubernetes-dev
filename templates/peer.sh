@@ -37,11 +37,16 @@ spec:
         - configMapRef:
             name: ${PEER}
         volumeMounts:
+        - name: dockersocket 
+          mountPath: "/host/var/run/docker.sock"
         - name: ${PEER}
           mountPath: "/etc/hyperledger/fabric-peer"
         - name: client-root-tlscas
           mountPath: "/etc/hyperledger/fabric-peer/client-root-tlscas"  
       volumes:
+      - name: dockersocket
+        hostPath:
+          path: "/var/run/docker.sock"
       - name: ${PEER}
         secret:
           secretName: ${PEER}
