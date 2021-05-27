@@ -45,7 +45,13 @@ Start explorer. Ensure explorerdb is up and running.
 kubectl -n org1 apply -f explorer/explorer.yaml
 ```
 
-Access explorer UI
+Access explorer UI for Openshift
+
+```bash
+oc -n org1 expose svc/explorer
+```
+
+Access explorer UI for K8s
 
 ```bash
 kubectl -n org1 port-forward svc/explorer 8080:80
