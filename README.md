@@ -45,6 +45,13 @@ Start explorer. Ensure explorerdb is up and running.
 kubectl -n org1 apply -f explorer/explorer.yaml
 ```
 
+Access explorer UI
+
+```bash
+kubectl -n org1 port-forward svc/explorer 8080:80
+```
+explorer should now be available at http://localhost:8080
+
 Chaincode lifecycle
 
 ```bash
@@ -58,13 +65,6 @@ Chaincode lifecycle
 ./hlf.sh ccChangeReOwner    # Changes the owner of the given RE id.
 ./hlf.sh ccChangeRePrice    # Changes the price of the given RE id.
 ```
-
-Access explorer UI
-
-```bash
-kubectl -n org1 port-forward svc/explorer 8080:80
-```
-explorer should now be available at http://localhost:8080
 
 ## Rest API
 
