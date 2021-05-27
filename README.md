@@ -31,20 +31,6 @@ Have peers joined to channel. Ensure all components are up and running.
 ./hlf.sh joinChannel
 ```
 
-Chaincode lifecycle
-
-```bash
-./hlf.sh ccInstall
-./hlf.sh ccApprove
-./hlf.sh ccCommit
-./hlf.sh ccInit             # Populates ledger with assests.
-./hlf.sh ccQueryAllRes      # Reads ledger for every peer.
-./hlf.sh ccQueryRe          # Reads the given RE id.
-./hlf.sh ccCreateRe         # Creates a RE with given attributes.
-./hlf.sh ccChangeReOwner    # Changes the owner of the given RE id.
-./hlf.sh ccChangeRePrice    # Changes the price of the given RE id.
-```
-
 ## Explorer
 
 Start explorer db
@@ -57,6 +43,20 @@ Start explorer. Ensure explorerdb is up and running.
 
 ```bash
 kubectl -n org1 apply -f explorer/explorer.yaml
+```
+
+Chaincode lifecycle
+
+```bash
+./hlf.sh ccInstall
+./hlf.sh ccApprove
+./hlf.sh ccCommit
+./hlf.sh ccInit             # Populates ledger with assests.
+./hlf.sh ccQueryAllRes      # Reads ledger for every peer.
+./hlf.sh ccQueryRe          # Reads the given RE id.
+./hlf.sh ccCreateRe         # Creates a RE with given attributes.
+./hlf.sh ccChangeReOwner    # Changes the owner of the given RE id.
+./hlf.sh ccChangeRePrice    # Changes the price of the given RE id.
 ```
 
 Access explorer UI
