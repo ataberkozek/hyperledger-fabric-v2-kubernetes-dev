@@ -62,8 +62,9 @@ kubectl -n org1 apply -f explorer/explorer.yaml
 Access explorer UI
 
 ```bash
-kubectl -n org1 expose svc/explorer
+kubectl -n org1 port-forward svc/explorer 8080:80
 ```
+explorer should now be available at http://localhost:8080
 
 ## Rest API
 
