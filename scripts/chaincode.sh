@@ -115,7 +115,7 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["ChangeReOwner", "RE1", "Ataberk"]}' \
+  --ctor '{"Args":["ChangeReOwner", "RE1", "Robert"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
