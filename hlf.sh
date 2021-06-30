@@ -7,8 +7,8 @@ source ./scripts/chaincode.sh
 
 export CHANNEL_PROFILE=AllOrgsChannel # defined in configtx.yaml
 export CHANNEL_ID=allorgs # anything
-export CCURL=github.com/ataberkozek/hyperledger-fabric-v2-kubernetes-dev/fabre/
-export CCNAME=fabre
+export CCURL=github.com/ataberkozek/hyperledger-fabric-v2-kubernetes-dev/fabcar/
+export CCNAME=fabcar
 
 createNamespaces() {
     for NS in org1 org2 org3 org4 org5
