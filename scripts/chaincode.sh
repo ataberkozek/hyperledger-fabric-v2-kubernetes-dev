@@ -96,17 +96,6 @@ peer chaincode query --name ${CCNAME} \
 EOF
 }
 
-queryAllRes() {
-CCNAME=$1
-CHANNEL_ID=$2
-cat <<EOF
-peer chaincode query --name ${CCNAME} \
---channelID ${CHANNEL_ID} \
---ctor '{"Args":["QueryAllRes"]}' \
---tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
-EOF
-}
-
 queryCar() {
 CCNAME=$1
 CHANNEL_ID=$2
@@ -114,17 +103,6 @@ cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
 --ctor '{"Args":["QueryCar", "CAR1"]}' \
---tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
-EOF
-}
-
-queryRe() {
-CCNAME=$1
-CHANNEL_ID=$2
-cat <<EOF
-peer chaincode query --name ${CCNAME} \
---channelID ${CHANNEL_ID} \
---ctor '{"Args":["QueryRe", "RE1"]}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
@@ -138,28 +116,6 @@ peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
   --ctor '{"Args":["ChangeCarOwner", "CAR1", "Robert"]}' \
-  --waitForEvent \
-  --waitForEventTimeout 300s \
-  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
-  --tls true -o orderer.org1:7050 \
-  --peerAddresses peer0.org1:7051 \
-  --peerAddresses peer0.org2:7051 \
-  --peerAddresses peer0.org3:7051  \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
-EOF
-}
-
-changeReOwner() {
-CCNAME=$1
-CHANNEL_ID=$2
-cat <<EOF
-echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
-peer chaincode invoke \
-  --channelID ${CHANNEL_ID} \
-  --name ${CCNAME} \
-  --ctor '{"Args":["ChangeReOwner", "RE1", "Robert"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -195,28 +151,6 @@ peer chaincode invoke \
 EOF
 }
 
-changeRePrice() {
-CCNAME=$1
-CHANNEL_ID=$2
-cat <<EOF
-echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
-peer chaincode invoke \
-  --channelID ${CHANNEL_ID} \
-  --name ${CCNAME} \
-  --ctor '{"Args":["ChangeRePrice", "RE1", "$200,000"]}' \
-  --waitForEvent \
-  --waitForEventTimeout 300s \
-  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
-  --tls true -o orderer.org1:7050 \
-  --peerAddresses peer0.org1:7051 \
-  --peerAddresses peer0.org2:7051 \
-  --peerAddresses peer0.org3:7051  \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
-  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
-EOF
-}
-
 createCar() {
 CCNAME=$1
 CHANNEL_ID=$2
@@ -239,7 +173,7 @@ peer chaincode invoke \
 EOF
 }
 
-createRe() {
+createParty() {
 CCNAME=$1
 CHANNEL_ID=$2
 cat <<EOF
@@ -247,7 +181,7 @@ echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
 peer chaincode invoke \
   --channelID ${CHANNEL_ID} \
   --name ${CCNAME} \
-  --ctor '{"Args":["AddRe", "RE10", "Istanbul", "4", "1", "$110,000", "130m2"]}' \
+  --ctor '{"Args":["CreateParty", "Greens"]}' \
   --waitForEvent \
   --waitForEventTimeout 300s \
   --cafile \$ORDERER_TLS_ROOTCERT_FILE \
@@ -258,5 +192,60 @@ peer chaincode invoke \
   --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
   --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
   --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
+EOF
+}
+
+castVoteDemocrats() {
+CCNAME=$1
+CHANNEL_ID=$2
+cat <<EOF
+echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
+peer chaincode invoke \
+  --channelID ${CHANNEL_ID} \
+  --name ${CCNAME} \
+  --ctor '{"Args":["CastVote", "Democrats"]}' \
+  --waitForEvent \
+  --waitForEventTimeout 300s \
+  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
+  --tls true -o orderer.org1:7050 \
+  --peerAddresses peer0.org1:7051 \
+  --peerAddresses peer0.org2:7051 \
+  --peerAddresses peer0.org3:7051  \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
+EOF
+}
+
+castVoteRepublicans() {
+CCNAME=$1
+CHANNEL_ID=$2
+cat <<EOF
+echo "Submitting invoketransaction to smart contract on ${CHANNEL_ID}"
+peer chaincode invoke \
+  --channelID ${CHANNEL_ID} \
+  --name ${CCNAME} \
+  --ctor '{"Args":["CastVote", "Republicans"]}' \
+  --waitForEvent \
+  --waitForEventTimeout 300s \
+  --cafile \$ORDERER_TLS_ROOTCERT_FILE \
+  --tls true -o orderer.org1:7050 \
+  --peerAddresses peer0.org1:7051 \
+  --peerAddresses peer0.org2:7051 \
+  --peerAddresses peer0.org3:7051  \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org1-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org2-cert.pem \
+  --tlsRootCertFiles /etc/hyperledger/fabric-peer/client-root-tlscas/tlsca.org3-cert.pem 
+EOF
+}
+
+queryAllPartys() {
+CCNAME=$1
+CHANNEL_ID=$2
+cat <<EOF
+peer chaincode query --name ${CCNAME} \
+--channelID ${CHANNEL_ID} \
+--ctor '{"Args":["QueryAllPartys"]}' \
+--tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
