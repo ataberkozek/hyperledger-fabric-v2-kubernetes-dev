@@ -109,24 +109,12 @@ ccChangeCarOwner)
 changeCarOwner ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
-ccChangeReOwner)
-changeReOwner ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
-  ;;
-  
 ccChangeCarPrice)
 changeCarPrice ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
-ccChangeRePrice)
-changeRePrice ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
-  ;;
-  
 ccCreateCar)
 createCar ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
-  ;;
-
-ccCreateRe)
-createRe ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
 
 ccQueryAllCars)
@@ -136,17 +124,6 @@ for ORG in org1 org2 org3
     do
       echo "Quering on ${PEER}.${ORG}"
       queryAllCars ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
-    done
-  done
-  ;;
-  
-ccQueryAllRes)
-for ORG in org1 org2 org3
-  do
-    for PEER in peer0
-    do
-      echo "Quering on ${PEER}.${ORG}"
-      queryAllRes ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
@@ -162,15 +139,28 @@ for ORG in org1 org2 org3
   done
   ;;
   
-ccQueryRe)
+  ccQueryAllPartys)
 for ORG in org1 org2 org3
   do
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryRe ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryAllRes ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
+  
+  ccCastVoteDemocrats)
+castVote ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+  ;;
+  
+  ccCastVoteRepublicans)
+castVote ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+  ;;
+  
+  ccCreateParty)
+createParty ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+  ;;
+  
 esac
 
