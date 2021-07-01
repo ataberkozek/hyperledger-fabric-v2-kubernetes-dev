@@ -1,4 +1,4 @@
-module github.com/ataberkozek/hyperledger-fabric-v2-kubernetes-dev/fabre
+module github.com/ataberkozek/hyperledger-fabric-v2-kubernetes-dev/e-vote
 
 go 1.13
 
