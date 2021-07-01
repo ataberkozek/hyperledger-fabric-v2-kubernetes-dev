@@ -151,11 +151,11 @@ for ORG in org1 org2 org3
   ;;
   
   ccCastVoteDemocrats)
-castVote ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+castVoteDemocrats ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
   ccCastVoteRepublicans)
-castVote ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+castVoteRepublicans ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
   ccCreateParty)
