@@ -113,6 +113,10 @@ ccChangeReOwner)
 changeReOwner ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
   
+ccChangeCarPrice)
+changeCarPrice ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
+  ;;
+  
 ccChangeRePrice)
 changeRePrice ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org1 exec -i $(kubectl -n org1 get pod -l app=admin -o name) -- sh -"
   ;;
