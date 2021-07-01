@@ -245,7 +245,7 @@ CHANNEL_ID=$2
 cat <<EOF
 peer chaincode query --name ${CCNAME} \
 --channelID ${CHANNEL_ID} \
---ctor '{"Args":["QueryAllPartys"]}' \
+--ctor '{"Args":["GetAllPartys"]}' \
 --tls --cafile \$ORDERER_TLS_ROOTCERT_FILE
 EOF
 }
