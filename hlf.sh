@@ -145,7 +145,7 @@ for ORG in org1 org2 org3
     for PEER in peer0
     do
       echo "Quering on ${PEER}.${ORG}"
-      queryAllRes ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
+      queryAllPartys ${CCNAME} ${CHANNEL_ID} | sh -c "kubectl --namespace org3 exec -i $(kubectl -n org3 get pod -l app=admin -o name) -- sh -"
     done
   done
   ;;
